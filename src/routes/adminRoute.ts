@@ -1,6 +1,6 @@
 import 'dotenv'
 import express, { Request, Response,NextFunction } from 'express';
-import extendedDb from '../databases/dbUser';
+import extendedDb from '../databases/dbAdmin';
 import bcrypt from 'bcrypt'
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken'
@@ -10,21 +10,21 @@ dotenv.config();
 const router = express.Router();
 
 //only user login
-router.get('/get',authentication, async function (req: Request, res: Response,next: NextFunction) {
+router.get('/get', async function (req: Request, res: Response,next: NextFunction) {
   try {
     let result: any[] = [];
-    result = await extendedDb.getUser();
+    result = await extendedDb.getAdmin();
     res.json({result });  
   } catch (error) {
     console.log(error);
     return res.sendStatus(400);
   }
 });
-router.get('/get/:user_id',authentication, async function (req: Request, res: Response,next: NextFunction) {
+router.get('/get/:admin_id',authentication, async function (req: Request, res: Response,next: NextFunction) {
   try {
-    const {user_id} = req.params
+    const {admin_id} = req.params
     let result: any[] = [];
-    result = await extendedDb.getUserbyID(user_id);
+    result = await extendedDb.getAdminById(admin_id);
     res.json({result });  
     
   } catch (error) {
@@ -32,24 +32,24 @@ router.get('/get/:user_id',authentication, async function (req: Request, res: Re
     return res.sendStatus(400);
   }
 });
-router.put('/update',authentication, async function (req: Request, res: Response,next: NextFunction) {
+router.put('/update', async function (req: Request, res: Response,next: NextFunction) {
   try {
-    const {user_id,name,email} = req.body
+    const {admin_id,name,email} = req.body
     console.log(req.body)
     let result: any[] = [];
-    result = await extendedDb.updateUser(email,name,user_id);
+    result = await extendedDb.updateAdmin(email,name,admin_id);
     res.json({result });  
   } catch (error) {
     console.log(error);
     return res.sendStatus(400);
   }
 });
-router.delete('/delete',authentication, async function (req: Request, res: Response,next: NextFunction) {
+router.delete('/delete', async function (req: Request, res: Response,next: NextFunction) {
   try {
-    const {user_id} = req.body
+    const {admin_id} = req.body
     console.log(req.body)
     let result: any[] = [];
-    result = await extendedDb.deleteUser(user_id);
+    result = await extendedDb.deleteAdmin(admin_id);
     res.json({result });  
   } catch (error) {
     console.log(error);

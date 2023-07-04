@@ -15,13 +15,13 @@ router.post('/', async function (req: Request, res: Response) {
     if(!email || !name|| !password ) {
       return res.status(401).json({ message: 'Missing data' });
     }
-    const user = await extendedDb.findEmail(email);
+    const user = await extendedDb.findUserbyEmail(email);
     
     if (user && user.length > 0) {
       return res.status(400).json({ message: 'Email already exists' });
     }
     let result: any[] = [];
-    result = await extendedDb.addCustomer(email,name,hashedPassword);
+    result = await extendedDb.addUser(email,name,hashedPassword);
     res.json(result);
   } catch (error) {
     console.log(error);

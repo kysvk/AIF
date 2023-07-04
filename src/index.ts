@@ -8,6 +8,9 @@ import bodyParser from 'body-parser'
 import userRoute from './routes/userRoute'
 import loginRoute from './routes/loginRoute'
 import registerRoute from './routes/registerRoute'
+import customerRoute from './routes/customerRoute'
+import productRoute from './routes/productRoute'
+import adminRoute from './routes/adminRoute'
 
 const app = express()
 
@@ -23,6 +26,9 @@ app.use(bodyParser.json())
 app.use('/user', userRoute)
 app.use('/login', loginRoute)
 app.use('/register', registerRoute)
+app.use('/customer', customerRoute)
+app.use('/product', productRoute)
+app.use('/admin', adminRoute)
 const server = http.createServer(app)
 
 server.listen(8080, () => {
