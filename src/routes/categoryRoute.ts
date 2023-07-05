@@ -1,21 +1,21 @@
 import 'dotenv'
 import express, { Request, Response,NextFunction } from 'express';
-import extendedDb from '../databases/dbProduct';
+import extendedDb from '../databases/dbCategory';
 import bcrypt from 'bcrypt'
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken'
 import {authentication} from '../middlewares/authentication'
 import { generateAccessToken } from '../controllers/refreshToken'
-import { Product } from '../models/ProductModel';
+import { Category } from '../models/CategoryModel';
 dotenv.config();
 const router = express.Router();
 
 //only user login
 router.get('/',authentication, async function (req: Request, res: Response,next: NextFunction) {
   try {
-    let query = await extendedDb.getProduct();
-    let product : Product = query?query: []
-    res.json({ product });  
+    let query = await extendedDb.getCategory();
+    let category: Category = query? query : [];
+    res.json({ category });  
   } catch (error) {
     console.log(error);
     return res.sendStatus(400);
@@ -24,11 +24,11 @@ router.get('/',authentication, async function (req: Request, res: Response,next:
 router.get('/:id',authentication, async function (req: Request, res: Response,next: NextFunction) {
   try {
     const { id } = req.params
-    let query = await extendedDb.getProductByID(Number(id));
+    let query = await extendedDb.getCategoryById(Number(id));
     console.log(query[0])
     if (query && query.length > 0) {
-      let product: Product = query[0];
-      return res.json({ product });
+      let category: Category = query[0];
+      return res.json({ category });
     } 
     return res.status(400).send('not found');
   } catch (error) {
@@ -39,12 +39,12 @@ router.get('/:id',authentication, async function (req: Request, res: Response,ne
 
 router.post('/',authentication, async function (req: Request, res: Response) {
   try {
-    const { name,price,category } = req.body
-    if (!name || !price || !category) {
-        return res.status(400).send('please fill product name')
+    const { name } = req.body
+    if (!name) {
+        return res.status(400).send('please fill name')
     }
-    let product : Product = await extendedDb.addProduct(name,price,category);
-    res.json({product});
+    let category : Category = await extendedDb.addCategory(name);
+    res.json({category});
   } catch (error) {
     console.log(error);
     return res.sendStatus(400);
@@ -52,10 +52,11 @@ router.post('/',authentication, async function (req: Request, res: Response) {
 });
 router.put('/:id',authentication, async function (req: Request, res: Response,next: NextFunction) {
   try {
-    const {price,name,id} = req.body
+    const {id} = req.params
+    const {name} = req.body
     console.log(req.body)
-    let product : Product = await extendedDb.updateProduct(name,price,Number(id));
-    res.json({ product });  
+    let category : Category = await extendedDb.updateCategory(Number(id),name);
+    res.json({ category });  
   } catch (error) {
     console.log(error);
     return res.sendStatus(400);
@@ -65,9 +66,8 @@ router.put('/:id',authentication, async function (req: Request, res: Response,ne
 router.delete('/:id',authentication, async function (req: Request, res: Response,next: NextFunction) {
   try {
     const {id} = req.params
-    console.log(req.body)
-    let product : Product = await extendedDb.deleteProduct(Number(id));
-    res.json({ product });  
+    let category : Category = await extendedDb.deleteCategory(Number(id));
+    res.json({ category });  
   } catch (error) {
     console.log(error);
     return res.sendStatus(400);

@@ -18,7 +18,8 @@ router.post('/', async function (req: Request, res: Response) {
       const decodePassword = await bcrypt.compare(password, user[0].password);
       
       if (decodePassword) {
-const accessToken = await generateAccessToken({name:user[0].name});
+        // console.log(user[0])
+const accessToken = await generateAccessToken({id:user[0].user_id,name:user[0].name,email:user[0].email,role:user[0].role});
 console.log(accessToken)
     
         res.json({ status: "ok", message: "login success", token: accessToken });

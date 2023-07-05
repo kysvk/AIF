@@ -10,10 +10,10 @@ interface DB {
 
 const db: DB = {
   connect: mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "login",
+    host: process.env.DB_NAME,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE,
   }),
 
   query: (databaseQuery: string) => {

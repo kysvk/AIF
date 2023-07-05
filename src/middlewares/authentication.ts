@@ -20,7 +20,8 @@ export const authentication = async (req: Request, res: Response, next: NextFunc
 
   try {
     const decoded = await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-    req = decoded;
+    console.log(decoded)
+    req.user = decoded;
     next();
  
   } catch (ex) {

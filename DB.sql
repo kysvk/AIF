@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 03, 2023 at 09:20 AM
+-- Generation Time: Jul 05, 2023 at 09:06 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -18,8 +18,48 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `login`
+-- Database: `db`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `category_table`
+--
+
+CREATE TABLE `category_table` (
+  `category_id` int(11) NOT NULL,
+  `category_name` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `category_table`
+--
+
+INSERT INTO `category_table` (`category_id`, `category_name`) VALUES
+(1, 'Notebook'),
+(2, 'mobile phone');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_table`
+--
+
+CREATE TABLE `product_table` (
+  `product_id` int(11) NOT NULL,
+  `product_name` varchar(30) NOT NULL,
+  `price` float NOT NULL,
+  `category_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `product_table`
+--
+
+INSERT INTO `product_table` (`product_id`, `product_name`, `price`, `category_id`) VALUES
+(1, 'computer MSI GL', 25000, 1),
+(2, 'computer ACER nitro7', 37000, 1);
 
 -- --------------------------------------------------------
 
@@ -31,20 +71,36 @@ CREATE TABLE `user_table` (
   `user_id` int(11) NOT NULL,
   `email` varchar(30) NOT NULL,
   `name` varchar(20) NOT NULL,
-  `password` longtext NOT NULL
+  `password` longtext NOT NULL,
+  `role` enum('USER','ADMIN') NOT NULL DEFAULT 'USER'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `user_table`
 --
 
-INSERT INTO `user_table` (`user_id`, `email`, `name`, `password`) VALUES
-(7, 'Jonh@gmail.com', 'Jennie', '$2b$10$DwX7qVXU/zXFJq1cDSXA8Ow1odeOSlRrl2CEZ0KgvqufTo1YqaN2m'),
-(8, 'phatthanahphone@gmail.com', 'Jennie', '$2b$10$eWWXWfmz7eBR.QOkvUfQmen2sblc5UmbdYFSuWEBh/9FR8e1rBSS2');
+INSERT INTO `user_table` (`user_id`, `email`, `name`, `password`, `role`) VALUES
+(7, 'tony@gmail.com', 'tony', '$2b$10$DwX7qVXU/zXFJq1cDSXA8Ow1odeOSlRrl2CEZ0KgvqufTo1YqaN2m', 'USER'),
+(10, 'phatthanaphone@gmail.com', 'phatthanahone', '$2b$10$JFJU9hVE.g8Tg0iU3xR3keiuk6QlhIlG1cMC82Y8oLqlJPCpkNMj6', 'ADMIN'),
+(11, 'victor@gmail.com', 'victor', '$2b$10$obhQ6lnnZCs6mKuShU70TObEFtc8HSB7.39c.g0VSXiPyulNU4cT.', 'USER'),
+(12, 'victor2@gmail.com', 'victor', '$2b$10$A5NG16WuUd4Q6Bhe.sx9au1MGNgNl.6Ucg62rUqtzfzmRiyDiDIyK', 'USER');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `category_table`
+--
+ALTER TABLE `category_table`
+  ADD PRIMARY KEY (`category_id`);
+
+--
+-- Indexes for table `product_table`
+--
+ALTER TABLE `product_table`
+  ADD PRIMARY KEY (`product_id`),
+  ADD KEY `product_category_fk` (`category_id`);
 
 --
 -- Indexes for table `user_table`
@@ -57,10 +113,32 @@ ALTER TABLE `user_table`
 --
 
 --
+-- AUTO_INCREMENT for table `category_table`
+--
+ALTER TABLE `category_table`
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `product_table`
+--
+ALTER TABLE `product_table`
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `user_table`
 --
 ALTER TABLE `user_table`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `product_table`
+--
+ALTER TABLE `product_table`
+  ADD CONSTRAINT `product_category_fk` FOREIGN KEY (`category_id`) REFERENCES `category_table` (`category_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
