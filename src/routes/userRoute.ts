@@ -5,16 +5,17 @@ import bcrypt from 'bcrypt'
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken'
 import { authentication } from '../middlewares/authentication'
+import { allowAdminAll,allowAdminById } from '../middlewares/allowAdmin'
 import { generateAccessToken } from '../controllers/refreshToken'
 import { User } from '../models/UserModel';
 dotenv.config();
 const router = express.Router();
 
 
-router.get('/', authentication, async function (req: Request, res: Response, next: NextFunction) {
+router.get('/', authentication,allowAdminAll, async function (req: Request, res: Response, next: NextFunction) {
   try {
     let query = await extendedDb.getUser();
-    // console.log(query)
+    // console.log(req.user)
     let users:User = query? query : [];
     // if(query.result) {
     //   users = query.result
@@ -27,11 +28,11 @@ router.get('/', authentication, async function (req: Request, res: Response, nex
     return res.sendStatus(400);
   }
 });
-router.get('/:id', authentication, async function (req: Request, res: Response, next: NextFunction) {
+router.get('/:id', authentication,allowAdminById, async function (req: Request, res: Response, next: NextFunction) {
   try {
     const { id } = req.params
     let query = await extendedDb.getUserbyID(Number(id));
-    console.log(query[0])
+    // console.log(req.user)
     if (query && query.length > 0) {
       let user: User = query[0];
       return res.json({ user });
@@ -42,18 +43,18 @@ router.get('/:id', authentication, async function (req: Request, res: Response, 
     return res.sendStatus(400);
   }
 });
-router.put('/:id', authentication, async function (req: Request, res: Response, next: NextFunction) {
+router.put('/:id', authentication,allowAdminById, async function (req: Request, res: Response, next: NextFunction) {
   try {
-    const { id, name, email } = req.body
-    console.log(req.body)
-    let user: User = await extendedDb.updateUser(email, name, id);
+    const { name, email } = req.body
+    const {id} = req.params
+    let user: User = await extendedDb.updateUser(email, name, Number(id));
     res.json({ user });
   } catch (error) {
     console.log(error);
     return res.sendStatus(400);
   }
 });
-router.delete('/:id', authentication, async function (req: Request, res: Response, next: NextFunction) {
+router.delete('/:id', authentication,allowAdminById, async function (req: Request, res: Response, next: NextFunction) {
   try {
     const { id } = req.params
     console.log(req.body)

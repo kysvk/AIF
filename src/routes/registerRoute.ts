@@ -12,16 +12,17 @@ router.post('/', async function (req: Request, res: Response) {
   try {
     const { email,name,password} = req.body
     console.log(req.body)
-    const hashedPassword = await bcrypt.hash(password, 10);
+    
     if(!email || !name|| !password ) {
       return res.status(401).json({ message: 'Missing data' });
     }
+    
     const user = await extendedDb.findUserbyEmail(email);
     
     if (user && user.length > 0) {
       return res.status(400).json({ message: 'Email already exists' });
     }
-    
+    const hashedPassword = await bcrypt.hash(password, 10);
     let users : User = await extendedDb.addUser(email,name,hashedPassword);
     res.json(users);
   } catch (error) {

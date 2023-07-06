@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 05, 2023 at 09:06 AM
+-- Generation Time: Jul 06, 2023 at 05:45 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -58,8 +58,8 @@ CREATE TABLE `product_table` (
 --
 
 INSERT INTO `product_table` (`product_id`, `product_name`, `price`, `category_id`) VALUES
-(1, 'computer MSI GL', 25000, 1),
-(2, 'computer ACER nitro7', 37000, 1);
+(2, 'ACER NITRO 5', 53000, 1),
+(5, 'Asus zenfone AR', 42300, 1);
 
 -- --------------------------------------------------------
 
@@ -83,7 +83,8 @@ INSERT INTO `user_table` (`user_id`, `email`, `name`, `password`, `role`) VALUES
 (7, 'tony@gmail.com', 'tony', '$2b$10$DwX7qVXU/zXFJq1cDSXA8Ow1odeOSlRrl2CEZ0KgvqufTo1YqaN2m', 'USER'),
 (10, 'phatthanaphone@gmail.com', 'phatthanahone', '$2b$10$JFJU9hVE.g8Tg0iU3xR3keiuk6QlhIlG1cMC82Y8oLqlJPCpkNMj6', 'ADMIN'),
 (11, 'victor@gmail.com', 'victor', '$2b$10$obhQ6lnnZCs6mKuShU70TObEFtc8HSB7.39c.g0VSXiPyulNU4cT.', 'USER'),
-(12, 'victor2@gmail.com', 'victor', '$2b$10$A5NG16WuUd4Q6Bhe.sx9au1MGNgNl.6Ucg62rUqtzfzmRiyDiDIyK', 'USER');
+(12, 'victor2@gmail.com', 'victor', '$2b$10$A5NG16WuUd4Q6Bhe.sx9au1MGNgNl.6Ucg62rUqtzfzmRiyDiDIyK', 'USER'),
+(13, 'Lucky@gmail.com', 'Lucky', '$2b$10$J9VoJC3lAszyx3X2ZFnWWOdYmvqkvRD/bQXEErR8Q7uTFxkYj7edK', 'USER');
 
 --
 -- Indexes for dumped tables
@@ -116,19 +117,19 @@ ALTER TABLE `user_table`
 -- AUTO_INCREMENT for table `category_table`
 --
 ALTER TABLE `category_table`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `product_table`
 --
 ALTER TABLE `product_table`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `user_table`
 --
 ALTER TABLE `user_table`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables

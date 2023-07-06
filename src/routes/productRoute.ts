@@ -52,7 +52,8 @@ router.post('/',authentication, async function (req: Request, res: Response) {
 });
 router.put('/:id',authentication, async function (req: Request, res: Response,next: NextFunction) {
   try {
-    const {price,name,id} = req.body
+    const {id} = req.params
+    const {price,name} = req.body
     console.log(req.body)
     let product : Product = await extendedDb.updateProduct(name,price,Number(id));
     res.json({ product });  
