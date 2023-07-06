@@ -1,0 +1,1 @@
+I have tested API by using Postman, you could import API test file from Postman folder
